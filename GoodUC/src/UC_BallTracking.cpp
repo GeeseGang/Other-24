@@ -36,8 +36,7 @@ void User_Control::BallTracking::Control(void){
           cycleDelay = true;
           ejecting = false;
           while(Color1.value() > 32 && Color1.value() < 155 && Controller.ButtonR2.pressing()){
-            Brain.Screen.printAt(100,200, "in here: %2d", BottomTracker.value(percentUnits::pct));
-            task::sleep(25);
+            task::sleep(10);
           }
           if(Color1.value() < 32 && Color1.value() > 1){
             currentColor = 1;
@@ -56,7 +55,7 @@ void User_Control::BallTracking::Control(void){
           }
           cycleDelay = false;
           while(BottomTracker.value(percentUnits::pct) < 69 && ejecting){
-            task::sleep(25);
+            task::sleep(10);
           }
           if(ejecting)
             task::sleep(100);
@@ -84,6 +83,7 @@ void User_Control::BallTracking::Control(void){
 
 
     if(ballArray[0] == 1){
+      task::sleep(100);
       if(Color1.value() < 32 && Color1.value() > 1){
         currentColor = 1;
       }
@@ -117,7 +117,7 @@ void User_Control::BallTracking::Control(void){
         if(Controller.ButtonA.pressing() || Controller.ButtonR2.pressing()){
           break;
         }
-        task::sleep(25);
+        task::sleep(10);
       }
     }
     if(!keep){
@@ -130,7 +130,7 @@ void User_Control::BallTracking::Control(void){
         if(Controller.ButtonA.pressing()){
           break;
         }
-        task::sleep(25);
+        task::sleep(10);
       }
     }
     else{
@@ -148,6 +148,6 @@ void User_Control::BallTracking::Control(void){
     // red ~ 20
     //empty ~ 80
     //blue ~200
-    task::sleep(25);//don't hog the CPU
+    task::sleep(10);//don't hog the CPU
   }//while(true){
 }//void User_Control::Intake::Control(void){

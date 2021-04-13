@@ -11,6 +11,6 @@ void User_Control::Rollers::Control(void){
     else{
       BottomRollers.stop(brakeType::hold);
     }
-    task::sleep(25);//don't hog the CPU
+    task::sleep(10);//don't hog the CPU
   }//while(true){
 }//void User_Control::Intake::Control(void){

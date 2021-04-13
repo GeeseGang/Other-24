@@ -19,7 +19,7 @@ void User_Control::Flywheel::Control(void){
       topping = true;
       FlywheelMotor.spin(directionType::fwd, 100, percentUnits::pct);
       while(BallTracking::ballArray[1]){
-        task::sleep(25);//don't hog the CPU
+        task::sleep(10);//don't hog the CPU
         if(Controller.ButtonR2.pressing() || Controller.ButtonA.pressing()){
           break;
         }
@@ -42,6 +42,6 @@ void User_Control::Flywheel::Control(void){
     else{
       FlywheelMotor.stop(brakeType::hold);
     }
-    task::sleep(25);//don't hog the CPU
+    task::sleep(10);//don't hog the CPU
   }//while(true){
 }//void User_Control::Intake::Control(void){

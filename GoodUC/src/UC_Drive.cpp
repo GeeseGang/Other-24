@@ -55,6 +55,6 @@ void User_Control::Drive::Control(void) {
       //                    RearL->current(percentUnits::pct),   RearR->current(percentUnits::pct),
         //                  TopLeft.current(percentUnits::pct),   FwdR->current(percentUnits::pct)};
       
-    task::sleep(25);//Don't hog the CPU
+    task::sleep(10);//Don't hog the CPU
   } // while(true) {
 } // void User_Control::Drive::Control(void) {

@@ -8,9 +8,10 @@ void Auto::Test ()
 
 {
   
-  Gyro.startCalibration();
+  /*Gyro.startCalibration();
   while(Gyro.isCalibrating())
   task::sleep(10);
+  */
   
   Auto::Movement::Auto_Move(2.1,100);
   while(Auto::Movement::Enabled)
@@ -25,7 +26,15 @@ void Auto::Test ()
     Auto::Intake::OutTake_Eject();
   }
   task::sleep(10);
-
+  if(BottomTracker.value(percentUnits::pct) < 67){
+    BottomRollers.spin(directionType::fwd, 100, percentUnits::pct);
+    EjectorMotor.spin(directionType::fwd, 100, percentUnits::pct);
+    task::sleep(350);
+    EjectorMotor.spin(directionType::fwd, -100, percentUnits::pct);
+    task::sleep(200);
+    BottomRollers.stop(brakeType::hold);
+    EjectorMotor.stop(brakeType::hold);
+  }
   Auto::Turn::TurnSpecific(135, 40);
   while(Auto::Turn::Enabled)
     task::sleep(10);
@@ -35,8 +44,8 @@ void Auto::Test ()
    Auto::Movement::Auto_Move(1.2,80); //normally 1.25
   while(Auto::Movement::Enabled)
  {
-  Auto::Intake::IntakeTo(2);
-  Auto::Intake::Intake_On(20);
+    Auto::Intake::IntakeTo(2);
+    Auto::Intake::Intake_On(20);
   }
 
   Auto::Intake::Shoot_Index();

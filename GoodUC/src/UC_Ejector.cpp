@@ -11,7 +11,7 @@ void User_Control::Ejector::Control(void){
     else if(BallTracking::ejecting && !BallTracking::cycleDelay){
       while(BallTracking::ejecting){
         EjectorMotor.spin(directionType::fwd, -100, percentUnits::pct);
-        task::sleep(25);
+        task::sleep(10);
         if(Controller.ButtonA.pressing() || BallTracking::cycleDelay){
           break;
         }
@@ -29,6 +29,6 @@ void User_Control::Ejector::Control(void){
       EjectorMotor.stop(brakeType::hold);
     }
 
-    task::sleep(25);//don't hog the CPU
+    task::sleep(10);//don't hog the CPU
   }//while(true){
 }//void User_Control::Intake::Control(void){int onRed = 1;
