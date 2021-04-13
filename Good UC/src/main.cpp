@@ -4,7 +4,7 @@
 void pre_auton(void){
   vexcodeInit();
   Gyro.startCalibration();
-  Color1.setLightPower(5, percentUnits::pct);
+  Color1.setLightPower(100, percentUnits::pct);
   Competition.autonomous(Auto::Test);
 }
 

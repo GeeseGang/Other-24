@@ -10,9 +10,10 @@ namespace User_Control {
 
 void User_Control::Flywheel::Control(void){
   bool buttonPressed = false;
+  
   while(true){
     
-
+    topping = false;
     if(Controller.ButtonR1.pressing() && !buttonPressed && !Controller.ButtonR2.pressing() && !Controller.ButtonA.pressing()){
       buttonPressed = true;
       topping = true;

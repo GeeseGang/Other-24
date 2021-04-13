@@ -8,6 +8,7 @@ namespace User_Control {
     bool ejecting = false;
     int allianceColor = 1; //1 is red, -1 is blue
     int ballArray[2] = {0,0};
+    bool cycleDelay = false;
   } // namespace Drive {
 } // namespace User_Control {
 
@@ -16,8 +17,58 @@ namespace User_Control {
 void User_Control::BallTracking::Control(void){
   int currentColor = 0;
   bool keep = true;
-  Color1.setLightPower(10, percentUnits::pct);
+  Color1.setLightPower(100, percentUnits::pct);
   while(true){
+    cycleDelay = false;
+    while(Controller.ButtonA.pressing()){
+      ejecting = false;
+      sendingUpF = false;
+      sendingUpE = false;
+    }
+    if(Controller.ButtonR2.pressing()){
+      ejecting = false;
+      sendingUpF = false;
+      sendingUpE = false;
+      while(Controller.ButtonR2.pressing()){
+        ejecting = false;
+        
+        if(BottomTracker.value(percentUnits::pct) < 69){
+          cycleDelay = true;
+          ejecting = false;
+          while(Color1.value() > 32 && Color1.value() < 155 && Controller.ButtonR2.pressing()){
+            Brain.Screen.printAt(100,200, "in here: %2d", BottomTracker.value(percentUnits::pct));
+            task::sleep(25);
+          }
+          if(Color1.value() < 32 && Color1.value() > 1){
+            currentColor = 1;
+          }
+          else if(Color1.value() > 155){
+            currentColor = -1;
+          }
+          else{
+            currentColor = 0;
+          }
+          if(currentColor == allianceColor * (-1)){
+            ejecting = true;
+          }
+          else{
+            ejecting = false;
+          }
+          cycleDelay = false;
+          while(BottomTracker.value(percentUnits::pct) < 69 && ejecting){
+            task::sleep(25);
+          }
+          if(ejecting)
+            task::sleep(100);
+        }
+        
+        else{
+          cycleDelay = false;
+          ejecting = false;
+        }
+        task::sleep(10);
+      }
+    }
     if(TopTracker.value(percentUnits::pct) < 67){
       ballArray[1] = 1;
     }
@@ -33,10 +84,10 @@ void User_Control::BallTracking::Control(void){
 
 
     if(ballArray[0] == 1){
-      if(Color1.value() < 50 && Color1.value() > 1){
+      if(Color1.value() < 32 && Color1.value() > 1){
         currentColor = 1;
       }
-      else if(Color1.value() > 150){
+      else if(Color1.value() > 155){
         currentColor = -1;
       }
       else{
@@ -63,14 +114,21 @@ void User_Control::BallTracking::Control(void){
         if(TopTracker.value(percentUnits::pct) < 67){
           ballArray[1] = 1;
         }
+        if(Controller.ButtonA.pressing() || Controller.ButtonR2.pressing()){
+          break;
+        }
         task::sleep(25);
       }
     }
     if(!keep){
+      sendingUpF = false;
       ejecting = true;
       while(ballArray[0] == 1){
         if(BottomTracker.value(percentUnits::pct) > 67){
           ballArray[0] = 0;
+        }
+        if(Controller.ButtonA.pressing()){
+          break;
         }
         task::sleep(25);
       }

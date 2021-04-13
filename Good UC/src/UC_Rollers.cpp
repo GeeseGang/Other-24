@@ -5,7 +5,7 @@
 
 void User_Control::Rollers::Control(void){
   while(true){
-    if(Controller.ButtonA.pressing() || Controller.ButtonR2.pressing() || BallTracking::sendingUpE || (BallTracking::sendingUpF && !Flywheel::topping) || BallTracking::ejecting){
+    if(Controller.ButtonA.pressing() || (Controller.ButtonR2.pressing() && !BallTracking::cycleDelay) || BallTracking::sendingUpE || (BallTracking::sendingUpF && !Flywheel::topping) || (BallTracking::ejecting && !BallTracking::cycleDelay)){
       BottomRollers.spin(directionType::fwd, 100, percentUnits::pct);
     }
     else{

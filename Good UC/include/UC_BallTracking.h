@@ -9,6 +9,7 @@ namespace User_Control {
     extern bool ejecting;
     extern int allianceColor; //1 is red, -1 is blue
     extern int ballArray[2];
+    extern bool cycleDelay;
   } // namespace Drive {
 } // namespace User_Control {
 
