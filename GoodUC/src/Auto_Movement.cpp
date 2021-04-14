@@ -70,14 +70,17 @@ void Auto::Movement::Auto_Control(void)
     Brain.Screen.printAt(2,7*20, "Right : %5lf", Right.rotation(rotationUnits::deg));
     Brain.Screen.printAt(2, 9*20, "Velocity: %5lf", Velocity);
     Brain.Screen.printAt(2, 11*20, "init: %5lf", init_Error);
-    if((fabs(Error)<fabs(abs_Target-0.01)) || ((fabs(Velocity) < 0.065) && (fabs(Error) + 0.2 < fabs(init_Error)))){
+    if(fabs(Error)<fabs(abs_Target-0.01)){
      if(fabs(Velocity)<3 || Holding==1)
       Counter++;
      else 
      Counter =0;
      
-     if(Counter>10)
-     break;
+     if(Counter>10){
+       Counter = 0;
+       break;
+     }
+     
     }
     
 

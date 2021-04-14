@@ -1,70 +1,13 @@
 #include "vex.h"
 #include "Auto_Intake_Functions.h"
-#include "UC_BallTracking.h"
+#include "Indexer.h"
 namespace Auto {
   namespace Intake {
     int blue_Counter=0;
     int eject_Counter=0;
     int red_Counter=0;
-    int ballArray[2]={0,0};
-    int val =0;
-    int onRed=1;
-    bool ballEntered =false;
   }
 }
-
-int Auto::Intake::get_Ball_Status(int pos) {
-  updateArray();
-  task::sleep(10);
-  if(ballArray[pos]==1)
-  return 1;
-  else
-  return 0;
-}// end of get_Ball_Status()
-int Auto::Intake::getOpenSlot() {
-  for(int i=1; i>=0; i--) {
-     if(ballArray[i]==0)
-     {
-       Brain.Screen.printAt(100,170, "openSlot: %2d", i);
-       return i;
-     }
-  }
-
-
-return -1;
-}//end of getOpenSlot()
-
-int Auto::Intake::getFilledSlot() {
-  for(int i =1; i>=0; i--) {
-    if(ballArray[i]==1)
-    {
-      return i;
-    }
-  }
-  return -1;
-}
-
-void Auto::Intake::updateArray() {
-
-  if(BottomTracker.value(percentUnits::pct)<69)
-  {
-    ballArray[0]=1;
-  }
-  else
-  {
-    ballArray[0]=0;
-  }
-  if(TopTracker.value(percentUnits::pct)<67)
-  {
-    ballArray[1]=1;
-  }
-  else
-  {
-    ballArray[1]=0;
-  }
-
-}// end of updateArray()
-
 
 void Auto::Intake::Intake_On(int pow) {
   IntakeRight.spin(directionType::fwd,pow, velocityUnits::pct);
@@ -77,9 +20,9 @@ void Auto::Intake::Stop_Intakes() {
 }// end of Stop_Intakes()
 
 void Auto::Intake::Shoot_Index() {
-  Auto::Intake::updateArray();
+  Driver::Intake::updateArray();
   task::sleep(10);
-  int x = Auto::Intake::get_Ball_Status(0);
+  int x = Driver::Intake::get_Ball_Status(0);
 
   if(x==0) { // 2nd array pos is empty but first is full
     FlywheelMotor.spin(directionType::fwd, 100, velocityUnits::pct);
@@ -107,9 +50,9 @@ void Auto::Intake::Shoot_Index() {
 }// end of Shoot_Index()
 
 void Auto::Intake::Shoot_Index_No_Intake() {
-  Auto::Intake::updateArray();
+  Driver::Intake::updateArray();
   task::sleep(10);
-  int x = Auto::Intake::get_Ball_Status(0);
+  int x = Driver::Intake::get_Ball_Status(0);
 
   if(x==0) { // 2nd array pos is empty but first is full
     FlywheelMotor.spin(directionType::fwd, 100, velocityUnits::pct);
@@ -202,6 +145,7 @@ void Auto::Intake::Goal_Cycle_Intake(int target_shot, int target_eject) {
 }// end of Goal_Cycle_Intake
 
 void Auto::Intake::IntakeTo(int ballnum) {
+  int counter = 0;
   if(ballnum==1) {
     while(TopTracker.value(percentUnits::pct)>65) {
     Intake_On(50);
@@ -209,6 +153,10 @@ void Auto::Intake::IntakeTo(int ballnum) {
     BottomRollers.spin(directionType::fwd, 40, velocityUnits::pct);
     EjectorMotor.spin(directionType::fwd, 20, velocityUnits::pct);
     task::sleep(10);
+    counter++;
+    if(counter > 300){
+      break;
+    }
     }// end of while(TopTracker.value())
   }// end of if(ballnum==1)
   else if(ballnum ==2) {
@@ -218,6 +166,10 @@ void Auto::Intake::IntakeTo(int ballnum) {
     BottomRollers.spin(directionType::fwd, 80, velocityUnits::pct);
     EjectorMotor.spin(directionType::fwd, 20, velocityUnits::pct);
     task::sleep(10);
+    counter++;
+    if(counter > 300){
+      break;
+    }
     }// end of while(TopTracker.value())
     FlywheelMotor.stop(brakeType::hold);
     EjectorMotor.stop(brakeType::hold);
@@ -226,6 +178,10 @@ void Auto::Intake::IntakeTo(int ballnum) {
     BottomRollers.spin(directionType::fwd, 80, velocityUnits::pct);
     //EjectorMotor.spin(directionType::fwd, 20, velocityUnits::pct);
     task::sleep(10);
+    counter++;
+    if(counter > 300){
+      break;
+    }
     }
   }// end of else if(ballnum==2)
   //Stop_Intakes();

@@ -3,7 +3,10 @@
 #include "Autonomous.h"
 void pre_auton(void){
   vexcodeInit();
+  Color1.setLightPower(0, percentUnits::pct);
   Gyro.startCalibration();
+  while(Gyro.isCalibrating())
+    task::sleep(10);
   Color1.setLightPower(100, percentUnits::pct);
   Competition.autonomous(Auto::Test);
 }

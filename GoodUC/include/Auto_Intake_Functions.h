@@ -18,15 +18,7 @@ namespace Auto {
     void All_Roller_Stop(); //brakes all roller motors
     void Shoot_Index_No_Intake(); //shooting without intakes
     void Flywheel_Eject(); //outtakes with flywheel
-    extern int ballArray[2];
-    void Indexer(void);
-    void goalTopper(void);
-    int getOpenSlot();
-    int getFilledSlot();
-    void updateArray();
-    extern bool Eject;
-    void Sorting();
-    int get_Ball_Status(int pos);
+
     // variables
     extern int blue_Counter;
     extern int red_Counter;
